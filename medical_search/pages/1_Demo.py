@@ -13,25 +13,25 @@
 # limitations under the License.
 import pandas as pd
 import streamlit as st
-from st_aggrid import GridOptionsBuilder, AgGrid, ColumnsAutoSizeMode
+from st_aggrid import AgGrid, ColumnsAutoSizeMode, GridOptionsBuilder
 
-from retrieval import generate_answer
 import utils
+from retrieval import generate_answer
 
 st.set_page_config(
-    page_title="Q&A over Biomedical Literature",
+    page_title="Q&A over Documents",
     page_icon='app/images/logo.png',
     layout="wide",
 )
 
-st.title("Q&A over Biomedical Literature")
+st.title("Q&A over over Documents")
 
 questions = [
     "Select a question",
-    "Does metformin interfere thyroxine absorption?",
-    "Orteronel was developed for treatment of which cancer?",
-    "Has Denosumab (Prolia) been approved by FDA?",
-    "What are the classes of anti-arrhythmic drugs according to Vaughan-Williams classification?"
+    "How do I make a payment?",
+    "How do I make a payment on mobile",
+    "What does decline reason code 2 mean?",
+    "What is the code for invalid CVV?"
 ]
 
 # Not currently used in UI, but these are the ground truth answers from the BioASQ dataset
@@ -64,7 +64,7 @@ with cols[2]:
 
 st.divider()
 
-df = pd.DataFrame(sources, columns=['title', 'ncbi_ref', 'download', 'gcs_uri', 'content'])
+df = pd.DataFrame(sources, columns=['title', 'sharepoint_ref', 'download', 'gcs_uri', 'content'])
 gb = GridOptionsBuilder.from_dataframe(df[['title']])
 gb.configure_selection()
 gb.configure_column('title', header_name="Sources (click to expand)")
@@ -81,8 +81,8 @@ if sources:
     selected_rows = data["selected_rows"]
 
     if len(selected_rows) != 0:
-        st.markdown(f"**NCBI Reference:** {selected_rows[0]['ncbi_ref']}")
-        with st.expander('View Paper', expanded=False):
+        st.markdown(f"**Sharepoint Reference:** {selected_rows[0]['sharepoint_ref']}")
+        with st.expander('View Source', expanded=False):
             st.markdown(utils.show_pdf(selected_rows[0]['gcs_uri']), unsafe_allow_html=True)
         st.markdown('**Relevant Snippets**')
         for snippet in selected_rows[0]['content']:

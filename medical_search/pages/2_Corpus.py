@@ -1,9 +1,9 @@
-import streamlit as st
 import pandas as pd
-from st_aggrid import GridOptionsBuilder, AgGrid, ColumnsAutoSizeMode
+import streamlit as st
+from st_aggrid import AgGrid, ColumnsAutoSizeMode, GridOptionsBuilder
 
-from retrieval import get_corpus
 import utils
+from retrieval import get_corpus
 
 st.set_page_config(
     page_title="Q&A over Biomedical Literature",
@@ -29,5 +29,5 @@ data = AgGrid(
 selected_rows = data["selected_rows"]
 
 if len(selected_rows) != 0:
-    st.markdown(f"*NCBI REF:* {selected_rows[0]['ncbi_ref']}")
+    st.markdown(f"*NCBI REF:* {selected_rows[0]['sharepoint_ref']}")
     st.markdown(utils.show_pdf(selected_rows[0]['gcs_uri']), unsafe_allow_html=True)

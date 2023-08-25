@@ -13,15 +13,18 @@
 # limitations under the License.
 from __future__ import annotations
 
-import logging
 #logging.basicConfig(level=logging.INFO)
 import json
+import logging
 
 import streamlit as st
-from google.protobuf.json_format import MessageToDict
 from google.cloud import discoveryengine
-from google.cloud.discoveryengine_v1beta.services.search_service.pagers import SearchPager
-from google.cloud.discoveryengine_v1beta.services.document_service.pagers import ListDocumentsPager
+from google.cloud.discoveryengine_v1beta.services.document_service.pagers import \
+    ListDocumentsPager
+from google.cloud.discoveryengine_v1beta.services.search_service.pagers import \
+    SearchPager
+from google.protobuf.json_format import MessageToDict
+
 import utils
 
 
@@ -83,7 +86,7 @@ def _get_sources(response: SearchPager) -> list[(str, str, str, list)]:
             metadata = doc_info.get('structData')
             sources.append((
                 metadata["title"],
-                metadata["ncbi_ref"],
+                metadata["sharepoint_ref"],
                 metadata["download"],
                 doc_info.get('derivedStructData')['link'],
                 content))

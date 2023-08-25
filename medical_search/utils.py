@@ -23,7 +23,10 @@ SEARCH_ENGINE_ID = os.environ['SEARCH_ENGINE_ID']
 
 def show_pdf(uri: str) -> str:
     """Given gs:// uri, return html code to embed pdf in iframe"""
-    pdf_file = download_from_gcs(uri)
+    try:
+        pdf_file = download_from_gcs(uri)
+    except Exception as e:
+        print(e)
     base64_pdf = base64.b64encode(pdf_file).decode('utf-8')
     pdf_iframe = f'<iframe src="data:application/pdf;base64,{base64_pdf}" width="800" height="800" type="application/pdf"></iframe>'
     return pdf_iframe

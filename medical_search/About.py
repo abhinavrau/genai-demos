@@ -5,6 +5,8 @@ st.set_page_config(
     page_icon='app/images/logo.png',
 )
 
+st.
+
 cols = st.columns([13, 87])
 with cols[0]:
     st.image('app/images/logo.png')
